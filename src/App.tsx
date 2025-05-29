@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { SnackbarProvider } from "notistack";
+import "./App.css";
+import { defaultTheme } from "./theme/theme";
+import Fade from "./components/snackbar/Fade";
+import CustomSnackbar from "./components/snackbar/CustomSnackbar";
+import { Route, Routes } from "react-router-dom";
+import CommonLayout from "./views/layouts/CommonLayout";
+import VendingMachiine from "./views/pages/vendingMachine/VendingMachine";
+import VendingMachine from "./views/pages/vendingMachine/VendingMachine";
+import Diagram from "./views/pages/diagram/Diagram";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ThemeProvider theme={defaultTheme}>
+      <SnackbarProvider
+        maxSnack={3}
+        TransitionComponent={Fade}
+        Components={{ default: CustomSnackbar, warning: CustomSnackbar }}
+        autoHideDuration={1500}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "center",
+        }}
+      >
+        <CssBaseline />
+        <Routes>
+          <Route element={<CommonLayout />}>
+            <Route index element={<VendingMachine />} />
+            <Route path="/diagram" element={<Diagram />} />
+          </Route>
+        </Routes>
+      </SnackbarProvider>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
