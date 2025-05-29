@@ -1,13 +1,4 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  ButtonBase,
-  styled,
-  Theme,
-  useTheme,
-} from "@mui/material";
-import React from "react";
+import { AppBar, Box, ButtonBase, styled, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 
 const GNB = () => {
@@ -44,9 +35,12 @@ const GNBAppbar = styled(AppBar)({
   },
 });
 
-const MenuButton = styled(ButtonBase)((props: { theme: Theme }) => {
-  return {
-    color: props.theme.palette.primary,
-  };
-});
+const MenuButton = styled(ButtonBase)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  "&:focus": {
+    outline: "none",
+    fontWeight: 600,
+  },
+}));
+
 export default GNB;
