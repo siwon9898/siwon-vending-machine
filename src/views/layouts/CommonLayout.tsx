@@ -15,11 +15,12 @@ const CommonLayout = () => {
 
 const Container = styled(Box)({
   width: "100vw",
-  minHeight: "100vh",
+  height: "100vh",
   "& > .MuiBox-root": {
-    minHeight: "calc(100% - 40px)",
+    width: "100%",
+    height: "calc(100% - 40px)",
     top: "40px",
-    padding: "30px",
+    padding: "30px 30px 0 30px",
   },
 });
 
