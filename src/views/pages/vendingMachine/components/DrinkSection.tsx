@@ -44,6 +44,7 @@ const Container = styled(Box)(({ theme }) => ({
   background: theme.palette.primary.light,
   padding: "30px",
   borderRadius: "20px",
+  height: "500px",
   "& > h3": {
     fontWeight: 600,
   },
@@ -51,7 +52,7 @@ const Container = styled(Box)(({ theme }) => ({
     marginTop: "30px",
     display: "flex",
     flexDirection: "column",
-    gap: "10px",
+    gap: "20px",
   },
 }));
 

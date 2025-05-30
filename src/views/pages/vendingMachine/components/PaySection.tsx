@@ -20,7 +20,7 @@ const PaySection = () => {
 };
 
 const Container = styled(Box)(({ theme }) => ({
-  height: "50%",
+  height: "320px",
   background: "#fff",
   padding: "30px",
   borderRadius: "20px",
@@ -28,7 +28,7 @@ const Container = styled(Box)(({ theme }) => ({
     fontWeight: 600,
   },
   "& > .MuiBox-root": {
-    marginTop: "30px",
+    marginTop: "20px",
     display: "flex",
     flexDirection: "column",
     gap: "10px",
@@ -43,6 +43,7 @@ const PayButtonBox = styled(Box)(({ theme }) => ({
 }));
 
 const InsertedBox = styled(Box)(({ theme }) => ({
+  marginTop: "42px !important",
   "& > .MuiBox-root": {
     border: `1px solid ${theme.palette.grey[300]}`,
     borderRadius: "4px",
