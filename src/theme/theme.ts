@@ -30,7 +30,7 @@ const palette: PaletteOptions = {
     dark: "#C58E00",
   },
   secondary: {
-    main: "#E3BA8A",
+    main: "#E4F0F6",
     dark: "",
   },
   background: {
@@ -41,7 +41,7 @@ const palette: PaletteOptions = {
     100: "#E7EAF1",
     200: "#E0E4EB",
     300: "#DCE1E6",
-    400: "#9CA5B2",
+    400: "#9D9D9D",
     500: "#6A7380",
     600: "#313B49",
     700: "#1F2633",

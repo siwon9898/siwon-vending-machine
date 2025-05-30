@@ -44,6 +44,9 @@ const Container = styled(Box)(({ theme }) => ({
   background: theme.palette.primary.light,
   padding: "30px",
   borderRadius: "20px",
+  "& > h3": {
+    fontWeight: 600,
+  },
   "& > .MuiBox-root": {
     marginTop: "30px",
     display: "flex",

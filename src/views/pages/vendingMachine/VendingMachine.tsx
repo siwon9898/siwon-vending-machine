@@ -45,6 +45,10 @@ const MachineBody = styled(Box)(({ theme }) => ({
 const FlexBox = styled(Box)({
   display: "flex",
   alignItems: "center",
+  gap: "20px",
+  "& > div": {
+    width: "50%",
+  },
 });
 
 export default VendingMachine;

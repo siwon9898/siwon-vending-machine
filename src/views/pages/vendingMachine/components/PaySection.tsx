@@ -1,7 +1,54 @@
-import React from "react";
+import { Box, Button, styled, Typography } from "@mui/material";
+import React, { useState } from "react";
 
 const PaySection = () => {
-  return <div>PaySection</div>;
+  const [inserted, setInserted] = useState<number>(0);
+
+  return (
+    <Container>
+      <Typography variant="h3">Pay here</Typography>
+      <PayButtonBox>
+        <Button>Card</Button>
+        <Button>Cash</Button>
+      </PayButtonBox>
+      <InsertedBox>
+        <Typography>Inserted</Typography>
+        <Box>₩{inserted.toLocaleString()}</Box>
+      </InsertedBox>
+    </Container>
+  );
 };
+
+const Container = styled(Box)(({ theme }) => ({
+  height: "50%",
+  background: "#fff",
+  padding: "30px",
+  borderRadius: "20px",
+  "& > h3": {
+    fontWeight: 600,
+  },
+  "& > .MuiBox-root": {
+    marginTop: "30px",
+    display: "flex",
+    flexDirection: "column",
+    gap: "10px",
+  },
+}));
+
+const PayButtonBox = styled(Box)(({ theme }) => ({
+  "& > .MuiButtonBase-root": {
+    background: theme.palette.secondary.main,
+    height: "40px",
+  },
+}));
+
+const InsertedBox = styled(Box)(({ theme }) => ({
+  "& > .MuiBox-root": {
+    border: `1px solid ${theme.palette.grey[300]}`,
+    borderRadius: "4px",
+    textAlign: "center",
+    padding: "10px",
+  },
+}));
 
 export default PaySection;
