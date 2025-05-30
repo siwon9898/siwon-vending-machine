@@ -1,23 +1,11 @@
 import { createTheme, PaletteOptions } from "@mui/material";
 import type {} from "@mui/lab/themeAugmentation";
 
-declare module "@mui/material/styles" {
-  interface Palette {
-    black: {
-      main: "#000000";
-    };
-  }
-
-  interface PaletteOptions {
-    black?: {
-      main: "#000000";
-    };
-  }
-}
+declare module "@mui/material/styles" {}
 
 const palette: PaletteOptions = {
   primary: {
-    light: "#E0E4EB",
+    light: "#F1F5FA",
     main: "#313B49",
     dark: "#1F2633",
   },
@@ -28,7 +16,7 @@ const palette: PaletteOptions = {
   },
   info: {
     light: "#E9F4FF",
-    main: "#176EF0",
+    main: "#AFEBDD",
     dark: "#0E489F",
   },
   success: {
@@ -61,9 +49,6 @@ const palette: PaletteOptions = {
   text: {
     primary: "#212121",
     disabled: "#808080",
-  },
-  black: {
-    main: "#000000",
   },
 };
 
@@ -133,20 +118,48 @@ const components = {
         TextTransform: "none",
         padding: "0px",
         margin: "0px",
-        "&:hover": {
-          background: "#fff",
-        },
+        height: "20px",
         "&:disabled": {
           background: "#555",
           opacity: 0.3,
           color: "#fff",
         },
+        "&:focus": {
+          outline: "none",
+        },
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: "8px",
+        borderRadius: "6px",
         fontSize: "14px",
         fontWeight: "400",
+        color: "#000",
+        lineHeight: "normal",
+      },
+    },
+  },
+  MuiButtonBase: {
+    styleOverrides: {
+      root: {
+        minWidth: "0px",
+        TextTransform: "none",
+        padding: "0px",
+        margin: "0px",
+        height: "36px",
+        "&:disabled": {
+          background: "#555",
+          opacity: 0.3,
+          color: "#fff",
+        },
+        "&:focus": {
+          outline: "none",
+        },
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: "6px",
+        fontSize: "14px",
+        fontWeight: "500",
         color: "#000",
         lineHeight: "normal",
       },

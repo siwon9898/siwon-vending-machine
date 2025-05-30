@@ -1,5 +1,5 @@
+import GNB from "@/components/GNB/GNB";
 import { Box, styled } from "@mui/material";
-import GNB from "../../components/GNB/GNB";
 import { Outlet } from "react-router-dom";
 
 const CommonLayout = () => {
