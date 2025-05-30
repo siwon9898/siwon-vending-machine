@@ -1,4 +1,8 @@
-import { Machine, VendingMachineState } from "@/models/VendingMachineModel";
+import {
+  Machine,
+  User,
+  VendingMachineState,
+} from "@/models/VendingMachineModel";
 import CokeImg from "@images/img-coke.png";
 import WaterImg from "@images/img-water.png";
 import CoffeeImg from "@images/img-coffee.png";
@@ -7,6 +11,7 @@ import { immer } from "zustand/middleware/immer";
 
 interface VendingMachineStore {
   machine: Machine;
+  user: User;
   actions: {
     setMachine: (machine: Machine) => void;
   };
@@ -19,7 +24,7 @@ export const initMachine: Machine = {
       name: "Coke",
       price: 1100,
       img: CokeImg,
-      stock: 3,
+      stock: 0,
     },
     {
       drinkId: 1,
@@ -48,13 +53,30 @@ export const initMachine: Machine = {
   state: VendingMachineState.Success,
 };
 
+export const initUser: User = {
+  cashBalance: {
+    100: 5,
+    500: 5,
+    1000: 5,
+    5000: 5,
+    10000: 5,
+  },
+  cardBalance: 10000,
+};
+
 export const useVendingMachineStore = create<VendingMachineStore>()(
   immer((set) => ({
     machine: initMachine,
+    user: initUser,
     actions: {
       setMachine: (machine: Machine) => {
         set((state) => {
           state.machine = machine;
+        });
+      },
+      setUser: (user: User) => {
+        set((state) => {
+          state.user = user;
         });
       },
     },

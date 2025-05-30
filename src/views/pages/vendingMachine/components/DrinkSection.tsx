@@ -1,5 +1,5 @@
 import DrinkButton from "@/components/buttons/DrinkButton";
-import { Drink } from "@/models/VendingMachineModel";
+import { Drink, VendingMachineState } from "@/models/VendingMachineModel";
 import { useVendingMachineStore } from "@/stores/VendingMachineStore";
 import { Box, styled, Typography } from "@mui/material";
 
@@ -11,7 +11,11 @@ const DrinkSection = () => {
       <Typography variant="h3">Select Drink</Typography>
       <Box>
         {machine.drinks.map((item) => (
-          <DrinkButton drinkInfo={item} key={item.drinkId} />
+          <DrinkButton
+            drinkInfo={item}
+            key={item.drinkId}
+            isactive={machine.state === VendingMachineState.paid}
+          />
         ))}
       </Box>
     </Container>

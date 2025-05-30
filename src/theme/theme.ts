@@ -26,7 +26,7 @@ const palette: PaletteOptions = {
   },
   warning: {
     light: "#FFF5E1",
-    main: "#FBC436",
+    main: "#FCC4C4",
     dark: "#C58E00",
   },
   secondary: {

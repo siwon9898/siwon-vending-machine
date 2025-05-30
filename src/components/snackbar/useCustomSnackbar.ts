@@ -1,5 +1,9 @@
-import { useSnackbar, type VariantType } from 'notistack';
-import Fade from './Fade';
+import { useSnackbar, type VariantType } from "notistack";
+import Fade from "./Fade";
+import {
+  VendingMachineExeption,
+  warningMessages,
+} from "@/models/VendingMachineModel";
 
 // 커스텀 훅 정의
 export const useCustomSnackbar = () => {
@@ -12,5 +16,13 @@ export const useCustomSnackbar = () => {
     });
   };
 
-  return { showSnackbar };
+  const showWarning = (state: VendingMachineExeption) => {
+    if (!warningMessages[state]) return;
+    enqueueSnackbar(warningMessages[state], {
+      variant: "warning",
+      TransitionComponent: Fade,
+    });
+  };
+
+  return { showSnackbar, showWarning };
 };
