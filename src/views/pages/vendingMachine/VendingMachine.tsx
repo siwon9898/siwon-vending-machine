@@ -1,5 +1,4 @@
 import { Box, styled, useTheme } from "@mui/material";
-import React from "react";
 import DrinkSection from "./components/DrinkSection";
 import PaySection from "./components/PaySection";
 import ChangesSection from "./components/ChangesSection";
@@ -10,14 +9,19 @@ const VendingMachine = () => {
 
   return (
     <Container>
+      {/* 자판기 body */}
       <MachineBody>
         <FlexBox>
+          {/* 음료 선택 section */}
           <DrinkSection />
           <Box>
             <FlexBox>
+              {/* 결제 section */}
               <PaySection />
+              {/* 거스름돈 section */}
               <ChangesSection />
             </FlexBox>
+            {/* 상품 출구 section */}
             <OutletSection />
           </Box>
         </FlexBox>

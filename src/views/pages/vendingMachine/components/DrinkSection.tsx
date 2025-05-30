@@ -1,37 +1,16 @@
 import DrinkButton from "@/components/buttons/DrinkButton";
 import { Drink } from "@/models/VendingMachineModel";
+import { useVendingMachineStore } from "@/stores/VendingMachineStore";
 import { Box, styled, Typography } from "@mui/material";
-import CokeImg from "@images/img-coke.png";
-import WaterImg from "@images/img-water.png";
-import CoffeeImg from "@images/img-coffee.png";
 
 const DrinkSection = () => {
-  const drinks: Drink[] = [
-    {
-      drinkId: 0,
-      name: "Coke",
-      price: 1100,
-      img: CokeImg,
-    },
-    {
-      drinkId: 1,
-      name: "Water",
-      price: 600,
-      img: WaterImg,
-    },
-    {
-      drinkId: 2,
-      name: "Coffee",
-      price: 700,
-      img: CoffeeImg,
-    },
-  ];
+  const { machine } = useVendingMachineStore();
 
   return (
     <Container>
       <Typography variant="h3">Select Drink</Typography>
       <Box>
-        {drinks.map((item) => (
+        {machine.drinks.map((item) => (
           <DrinkButton drinkInfo={item} key={item.drinkId} />
         ))}
       </Box>
