@@ -43,9 +43,10 @@ const PayButtonBox = styled(Box)(({ theme }) => ({
 }));
 
 const InsertedBox = styled(Box)(({ theme }) => ({
-  marginTop: "42px !important",
+  marginTop: "48px !important",
+  gap: "4px !important",
   "& > .MuiBox-root": {
-    border: `1px solid ${theme.palette.grey[300]}`,
+    border: `1px solid ${theme.palette.grey[800]}`,
     borderRadius: "4px",
     textAlign: "center",
     padding: "10px",

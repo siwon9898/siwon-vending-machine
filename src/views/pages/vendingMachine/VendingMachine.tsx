@@ -39,7 +39,7 @@ const MachineBody = styled(Box)(({ theme }) => ({
   background: theme.palette.grey[300],
   alignSelf: "end",
   borderRadius: "20px 20px 0 0",
-  padding: "30px",
+  padding: "60px 30px 30px 30px",
 }));
 
 const FlexBox = styled(Box)({
