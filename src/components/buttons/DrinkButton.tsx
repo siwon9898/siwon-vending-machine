@@ -1,4 +1,4 @@
-import { Box, Button, ButtonBase, styled, Typography } from "@mui/material";
+import { Box, ButtonBase, styled, Typography } from "@mui/material";
 import {
   Drink,
   VendingMachineExeption,
@@ -21,39 +21,58 @@ const DrinkButton = (props: DrinkButtonProps) => {
   const { machine, user } = useVendingMachineStore();
   const { setMachine } = useVendingMachineAction();
 
-  const handleSelectDrink = (drink: Drink) => {
+  const checkException = (drink: Drink) => {
     const insertedCashTotal = getTotalCash(machine.insertedMoney);
-
     //품절인 경우
     if (drink.stock === 0) {
       showWarning(VendingMachineExeption.OutofStock);
-      return;
+      return false;
     }
     //결제하지 않고 선택한 경우
     if (machine.state === VendingMachineState.initial) {
       showWarning(VendingMachineExeption.unpaid);
-      return;
+      return false;
     }
-    //카드결제 잔액이 부족한경우
-    if (machine.payMethod === "CARD" && user.cardBalance < drink.price) {
-      showWarning(VendingMachineExeption.InsufficientBalance);
-      return;
+
+    //카드결제 case
+    if (machine.payMethod === "CARD") {
+      //잔액이 부족한경우
+      if (machine.payMethod === "CARD" && user.cardBalance < drink.price) {
+        showWarning(VendingMachineExeption.InsufficientBalance);
+        return false;
+      }
     }
-    //현금결제 금액이 부족하경우
-    if (machine.payMethod === "CASH" && insertedCashTotal < drink.price) {
-      showWarning(VendingMachineExeption.InsufficientCash);
-      return;
+    //현금결제 case
+    if (machine.payMethod === "CASH") {
+      //투입금액이 부족한경우
+      if (insertedCashTotal < drink.price) {
+        showWarning(VendingMachineExeption.InsufficientCash);
+        return false;
+      }
+      //잔돈 반환이 불가능한 경우
+      if (
+        !getChanges(
+          insertedCashTotal - drink.price,
+          sumCash(machine.balance, machine.insertedMoney)
+        )
+      ) {
+        showWarning(VendingMachineExeption.InsufficientBalance);
+        return false;
+      }
     }
-    //잔돈 반환이 불가능한 경우
-    if (
-      machine.payMethod === "CASH" &&
-      !getChanges(
-        insertedCashTotal - drink.price,
-        sumCash(machine.balance, machine.insertedMoney)
-      )
-    ) {
-      showWarning(VendingMachineExeption.InsufficientBalance);
-      return;
+  };
+
+  const handleSelectDrink = (drink: Drink) => {
+    if (checkException(drink)) {
+      setMachine({
+        ...machine,
+        selectedDrink: drink,
+        state: VendingMachineState.drinkSelected,
+        balance:
+          machine.payMethod === "CASH"
+            ? sumCash(machine.balance, machine.insertedMoney)
+            : machine.balance,
+      });
     }
   };
 

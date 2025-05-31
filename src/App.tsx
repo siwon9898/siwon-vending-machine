@@ -6,9 +6,9 @@ import Fade from "./components/snackbar/Fade";
 import CustomSnackbar from "./components/snackbar/CustomSnackbar";
 import { Route, Routes } from "react-router-dom";
 import CommonLayout from "./views/layouts/CommonLayout";
-import VendingMachiine from "./views/pages/vendingMachine/VendingMachine";
 import VendingMachine from "./views/pages/vendingMachine/VendingMachine";
 import Diagram from "./views/pages/diagram/Diagram";
+import Modals from "./views/modals/Modals";
 
 function App() {
   return (
@@ -30,6 +30,7 @@ function App() {
             <Route path="/diagram" element={<Diagram />} />
           </Route>
         </Routes>
+        <Modals />
       </SnackbarProvider>
     </ThemeProvider>
   );

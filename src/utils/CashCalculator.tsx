@@ -51,6 +51,24 @@ export function sumCash(a: Money, b: Money): Money {
 
   return result;
 }
+//금액권별로 현금 수량을 빼는 함수
+//return value : Money
+export function subtractCash(a: Money, b: Money): Money {
+  const units: CashUnit[] = [100, 500, 1000, 5000, 10000];
+  const result: Money = {
+    100: 0,
+    500: 0,
+    1000: 0,
+    5000: 0,
+    10000: 0,
+  };
+
+  for (const unit of units) {
+    result[unit] = (a[unit] || 0) - (b[unit] || 0);
+  }
+
+  return result;
+}
 
 //가지고있는 현금을 계산하는 함수
 //return value : number

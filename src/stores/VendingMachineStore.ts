@@ -12,9 +12,11 @@ import { immer } from "zustand/middleware/immer";
 interface VendingMachineStore {
   machine: Machine;
   user: User;
+  isWalletOpen: boolean;
   actions: {
     setMachine: (machine: Machine) => void;
     setUser: (user: User) => void;
+    setIsWalletOpen: (isOpen: boolean) => void;
   };
 }
 
@@ -76,6 +78,7 @@ export const useVendingMachineStore = create<VendingMachineStore>()(
   immer((set) => ({
     machine: initMachine,
     user: initUser,
+    isWalletOpen: false,
     actions: {
       setMachine: (machine: Machine) => {
         set((state) => {
@@ -85,6 +88,11 @@ export const useVendingMachineStore = create<VendingMachineStore>()(
       setUser: (user: User) => {
         set((state) => {
           state.user = user;
+        });
+      },
+      setIsWalletOpen: (isOpen: boolean) => {
+        set((state) => {
+          state.isWalletOpen = isOpen;
         });
       },
     },

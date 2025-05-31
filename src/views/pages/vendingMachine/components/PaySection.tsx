@@ -3,27 +3,47 @@ import {
   useVendingMachineAction,
   useVendingMachineStore,
 } from "@/stores/VendingMachineStore";
+import { getTotalCash } from "@/utils/\bCashCalculator";
 import { Box, Button, styled, Typography } from "@mui/material";
-import React, { useState } from "react";
+import { useState } from "react";
 
 const PaySection = () => {
   const { machine } = useVendingMachineStore();
-  const { setMachine } = useVendingMachineAction();
+  const { setMachine, setIsWalletOpen } = useVendingMachineAction();
+  const [isPaying, setIsPaying] = useState<boolean>(false);
 
   const handleClickPay = (payMethod: PayMethod) => {
-    setMachine({
-      ...machine,
-      payMethod: payMethod,
-      state: VendingMachineState.paid,
-    });
+    if (payMethod === "CASH") {
+      setMachine({
+        ...machine,
+        payMethod: payMethod,
+      });
+      setIsWalletOpen(true);
+    } else if (payMethod === "CARD") {
+      setMachine({
+        ...machine,
+        payMethod: payMethod,
+        state: VendingMachineState.paid,
+      });
+    }
   };
 
   return (
     <Container>
       <Typography variant="h3">Pay here</Typography>
       <PayButtonBox>
-        <Button onClick={() => handleClickPay("CARD")}>Card</Button>
-        <Button onClick={() => handleClickPay("CASH")}>Cash</Button>
+        <Button
+          onClick={() => handleClickPay("CARD")}
+          disabled={machine.payMethod === "CASH"}
+        >
+          Card
+        </Button>
+        <Button
+          onClick={() => handleClickPay("CASH")}
+          disabled={machine.payMethod === "CARD"}
+        >
+          Cash
+        </Button>
       </PayButtonBox>
       <InsertedBox>
         <Typography>Inserted</Typography>
@@ -31,7 +51,7 @@ const PaySection = () => {
           <Box>
             {machine.payMethod === "CARD"
               ? "AUTO"
-              : `₩${machine.insertedMoney.toLocaleString()}`}
+              : `₩${getTotalCash(machine.insertedMoney).toLocaleString()}`}
           </Box>
         ) : (
           <Box>-</Box>

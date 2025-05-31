@@ -9,7 +9,6 @@ const DrinkSection = () => {
 
   const checkIsAvailable = (drink: Drink) => {
     if (drink.stock === 0) return false;
-    if (machine.state === VendingMachineState.paid) return true;
     if (machine.payMethod === "CARD") return true;
     if (getTotalCash(machine.insertedMoney) >= drink.price) return true;
     else return false;
