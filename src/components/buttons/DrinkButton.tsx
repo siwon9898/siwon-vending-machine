@@ -61,7 +61,7 @@ const DrinkButton = (props: DrinkButtonProps) => {
           sumCash(machine.balance, machine.insertedMoney)
         )
       ) {
-        showWarning(VendingMachineExeption.InsufficientBalance);
+        showWarning(VendingMachineExeption.InsufficientChange);
         return false;
       }
     }

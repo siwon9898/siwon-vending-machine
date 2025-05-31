@@ -12,16 +12,20 @@ import { immer } from "zustand/middleware/immer";
 
 interface VendingMachineStore {
   machine: Machine;
-  initMachine: Machine;
+  machineSetting: Machine;
   user: User;
+  userSetting: User;
   isWalletOpen: boolean;
   changeInfoModal: ChangesInfoModal;
+  isSettingsOpen: boolean;
   actions: {
     setMachine: (machine: Machine) => void;
-    setInitMachine: (initMachine: Machine) => void;
+    setMachineSetting: (setting: Machine) => void;
     setUser: (user: User) => void;
+    setUserSetting: (setting: User) => void;
     setIsWalletOpen: (isOpen: boolean) => void;
     setChangeInfoModal: (modal: ChangesInfoModal) => void;
+    setIsSettingsOpen: (isOpen: boolean) => void;
   };
 }
 export const initMoney = {
@@ -31,7 +35,7 @@ export const initMoney = {
   5000: 0,
   10000: 0,
 };
-export const machinePreset: Machine = {
+export const initMachine: Machine = {
   drinks: [
     {
       drinkId: 0,
@@ -81,25 +85,32 @@ export const initUser: User = {
 
 export const useVendingMachineStore = create<VendingMachineStore>()(
   immer((set) => ({
-    machine: machinePreset,
-    initMachine: machinePreset,
+    machine: initMachine,
+    machineSetting: initMachine,
     user: initUser,
+    userSetting: initUser,
     isWalletOpen: false,
     changeInfoModal: { isOpen: false, changes: initMoney },
+    isSettingsOpen: false,
     actions: {
       setMachine: (machine: Machine) => {
         set((state) => {
           state.machine = machine;
         });
       },
-      setInitMachine: (initMachine: Machine) => {
+      setMachineSetting: (setting: Machine) => {
         set((state) => {
-          state.initMachine = initMachine;
+          state.machineSetting = setting;
         });
       },
       setUser: (user: User) => {
         set((state) => {
           state.user = user;
+        });
+      },
+      setUserSetting: (setting: User) => {
+        set((state) => {
+          state.userSetting = setting;
         });
       },
       setIsWalletOpen: (isOpen: boolean) => {
@@ -110,6 +121,11 @@ export const useVendingMachineStore = create<VendingMachineStore>()(
       setChangeInfoModal: (modal: ChangesInfoModal) => {
         set((state) => {
           state.changeInfoModal = modal;
+        });
+      },
+      setIsSettingsOpen: (isOpen: boolean) => {
+        set((state) => {
+          state.isSettingsOpen = isOpen;
         });
       },
     },

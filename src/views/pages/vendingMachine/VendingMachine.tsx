@@ -4,17 +4,24 @@ import PaySection from "./components/PaySection";
 import ChangesSection from "./components/ChangesSection";
 import OutletSection from "./components/OutletSection";
 import {
+  initMachine,
   useVendingMachineAction,
   useVendingMachineStore,
 } from "@/stores/VendingMachineStore";
 import SettingsIcon from "@mui/icons-material/Construction";
 const VendingMachine = () => {
-  const { setMachine } = useVendingMachineAction();
-  const { initMachine } = useVendingMachineStore();
+  const { setMachine, setUser, setIsSettingsOpen } = useVendingMachineAction();
+  const { machineSetting, userSetting } = useVendingMachineStore();
 
   const handleClickReset = () => {
-    setMachine(initMachine);
+    setMachine(machineSetting);
+    setUser(userSetting);
   };
+
+  const handleClickSettings = () => {
+    setIsSettingsOpen(true);
+  };
+
   return (
     <Container>
       {/* 자판기 body */}
@@ -22,7 +29,8 @@ const VendingMachine = () => {
         <MachineTop>
           <Typography>Siwon Vending Machine</Typography>
           <ButtonBox>
-            <ResetButton>
+            {/* 설정 변경 button */}
+            <ResetButton onClick={handleClickSettings}>
               <SettingsIcon />
               Change Settings
             </ResetButton>
@@ -43,6 +51,7 @@ const VendingMachine = () => {
           </Box>
         </FlexBox>
         <MachineBottom>
+          {/* reset(처음으로) button*/}
           <ResetButton
             onClick={handleClickReset}
             isprimary
