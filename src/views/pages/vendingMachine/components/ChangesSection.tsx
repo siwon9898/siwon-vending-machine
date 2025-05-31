@@ -1,21 +1,63 @@
+import { Money, VendingMachineState } from "@/models/VendingMachineModel";
+import {
+  initMoney,
+  useVendingMachineStore,
+} from "@/stores/VendingMachineStore";
+import { getChanges, getTotalCash } from "@/utils/\bCashCalculator";
 import { Box, styled, Typography } from "@mui/material";
+import { useEffect, useMemo, useState } from "react";
 
 const ChangesSection = () => {
+  const { machine } = useVendingMachineStore();
+  const [change, setChange] = useState<Money>();
+
+  useMemo(() => {
+    if (
+      machine.state === VendingMachineState.drinkSelected &&
+      machine.selectedDrink
+    ) {
+      if (machine.payMethod === "CASH") {
+        const calculated: false | Money = getChanges(
+          getTotalCash(machine.insertedMoney) -
+            machine.selectedDrink.reduce((a, b) => a + b.price, 0),
+          machine.balance
+        );
+        if (calculated) setChange(calculated);
+      } else {
+        setChange(initMoney);
+      }
+    }
+  }, [machine.insertedMoney, machine.selectedDrink, machine.state]);
+
+  useEffect(() => {
+    console.log("machine", machine);
+  }, [machine]);
+
   return (
     <Container>
       <Typography variant="h3">Changes</Typography>
       <Box>
         <PayStatus>
           <Typography>Price</Typography>
-          <Box>-</Box>
+          <Box>
+            {machine.selectedDrink
+              ? machine.selectedDrink.reduce((a, b) => a + b.price, 0)
+              : "-"}
+          </Box>
         </PayStatus>
         <PayStatus>
           <Typography>Paid</Typography>
-          <Box>-</Box>
+          <Box>
+            {machine.selectedDrink
+              ? machine.payMethod === "CARD"
+                ? machine.selectedDrink.reduce((a, b) => a + b.price, 0)
+                : getTotalCash(machine.insertedMoney).toLocaleString()
+              : "-"}
+          </Box>
         </PayStatus>
         <PayStatus isprimary>
           <Typography>Changes</Typography>
-          <Box>-</Box>
+          <Box>{change ? getTotalCash(change).toLocaleString() : "-"}</Box>
         </PayStatus>
       </Box>
     </Container>

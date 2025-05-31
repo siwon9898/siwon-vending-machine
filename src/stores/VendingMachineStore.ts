@@ -19,7 +19,13 @@ interface VendingMachineStore {
     setIsWalletOpen: (isOpen: boolean) => void;
   };
 }
-
+export const initMoney = {
+  100: 0,
+  500: 0,
+  1000: 0,
+  5000: 0,
+  10000: 0,
+};
 export const initMachine: Machine = {
   drinks: [
     {
@@ -44,7 +50,7 @@ export const initMachine: Machine = {
       stock: 5,
     },
   ],
-  selectedDrink: null,
+  selectedDrink: [],
   balance: {
     100: 20,
     500: 10,
@@ -53,13 +59,7 @@ export const initMachine: Machine = {
     10000: 1,
   },
   payMethod: undefined,
-  insertedMoney: {
-    100: 0,
-    500: 0,
-    1000: 0,
-    5000: 0,
-    10000: 0,
-  },
+  insertedMoney: initMoney,
   state: VendingMachineState.initial,
 };
 

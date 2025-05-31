@@ -20,6 +20,7 @@ const PaySection = () => {
       });
       setIsWalletOpen(true);
     } else if (payMethod === "CARD") {
+      //카드결제는 카드 투입한 순간 paid 상태
       setMachine({
         ...machine,
         payMethod: payMethod,
@@ -47,7 +48,7 @@ const PaySection = () => {
       </PayButtonBox>
       <InsertedBox>
         <Typography>Inserted</Typography>
-        {machine.state === VendingMachineState.paid ? (
+        {machine.state !== VendingMachineState.initial ? (
           <Box>
             {machine.payMethod === "CARD"
               ? "AUTO"

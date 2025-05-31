@@ -1,6 +1,7 @@
 import { Box, ButtonBase, styled, Typography } from "@mui/material";
 import {
   Drink,
+  Machine,
   VendingMachineExeption,
   VendingMachineState,
 } from "@/models/VendingMachineModel";
@@ -9,7 +10,12 @@ import {
   useVendingMachineStore,
 } from "@/stores/VendingMachineStore";
 import { useCustomSnackbar } from "../snackbar/useCustomSnackbar";
-import { getChanges, getTotalCash, sumCash } from "@/utils/CashCalculator";
+import {
+  getChanges,
+  getTotalCash,
+  subtractCash,
+  sumCash,
+} from "@/utils/CashCalculator";
 
 interface DrinkButtonProps {
   drinkInfo: Drink;
@@ -19,9 +25,14 @@ interface DrinkButtonProps {
 const DrinkButton = (props: DrinkButtonProps) => {
   const { showWarning } = useCustomSnackbar();
   const { machine, user } = useVendingMachineStore();
-  const { setMachine } = useVendingMachineAction();
+  const { setMachine, setUser } = useVendingMachineAction();
 
   const checkException = (drink: Drink) => {
+    const totalPrice = [...machine.selectedDrink, drink].reduce(
+      (a, b) => a + b.price,
+      0
+    );
+
     const insertedCashTotal = getTotalCash(machine.insertedMoney);
     //품절인 경우
     if (drink.stock === 0) {
@@ -45,14 +56,14 @@ const DrinkButton = (props: DrinkButtonProps) => {
     //현금결제 case
     if (machine.payMethod === "CASH") {
       //투입금액이 부족한경우
-      if (insertedCashTotal < drink.price) {
+      if (insertedCashTotal < totalPrice) {
         showWarning(VendingMachineExeption.InsufficientCash);
         return false;
       }
       //잔돈 반환이 불가능한 경우
       if (
         !getChanges(
-          insertedCashTotal - drink.price,
+          insertedCashTotal - totalPrice,
           sumCash(machine.balance, machine.insertedMoney)
         )
       ) {
@@ -60,18 +71,28 @@ const DrinkButton = (props: DrinkButtonProps) => {
         return false;
       }
     }
+    return true;
   };
 
   const handleSelectDrink = (drink: Drink) => {
     if (checkException(drink)) {
       setMachine({
         ...machine,
-        selectedDrink: drink,
+        selectedDrink: [...machine.selectedDrink, drink],
         state: VendingMachineState.drinkSelected,
         balance:
           machine.payMethod === "CASH"
             ? sumCash(machine.balance, machine.insertedMoney)
             : machine.balance,
+      });
+
+      //카드결제는 음료 고르는 순간 user 잔액 차감
+      setUser({
+        ...user,
+        cardBalance:
+          machine.payMethod === "CARD"
+            ? user.cardBalance - drink.price
+            : user.cardBalance,
       });
     }
   };

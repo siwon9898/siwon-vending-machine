@@ -39,11 +39,12 @@ const WalletModal = () => {
     }
   };
 
+  //현금 투입 시 user 잔액 차감 + machine balance 추가
   const handleConfirmPay = () => {
     if (getTotalCash(selectedCash) > 0) {
       setMachine({
         ...machine,
-        insertedMoney: selectedCash,
+        insertedMoney: sumCash(machine.insertedMoney, selectedCash),
         state: VendingMachineState.paid,
       });
       setUser({

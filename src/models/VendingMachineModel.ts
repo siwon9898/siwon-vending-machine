@@ -8,7 +8,7 @@ export interface Drink {
 
 export interface Machine {
   drinks: Drink[];
-  selectedDrink: Drink | null;
+  selectedDrink: Drink[];
   balance: Money;
   payMethod: PayMethod;
   insertedMoney: Money;

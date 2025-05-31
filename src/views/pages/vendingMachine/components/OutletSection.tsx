@@ -1,9 +1,20 @@
+import { useVendingMachineStore } from "@/stores/VendingMachineStore";
 import { Box, styled, Typography } from "@mui/material";
 
 const OutletSection = () => {
+  const { machine } = useVendingMachineStore();
   return (
     <Container>
       <Typography variant="h3">Outlet</Typography>
+      <Outlet>
+        {machine.selectedDrink.map((drink, index) => (
+          <Box
+            component={"img"}
+            src={drink.img}
+            key={`${drink.drinkId}_${index}`}
+          />
+        ))}
+      </Outlet>
       <OutletFloor />
     </Container>
   );
@@ -20,6 +31,16 @@ const Container = styled(Box)({
   },
 });
 
+const Outlet = styled(Box)({
+  position: "absolute",
+  display: "flex",
+  bottom: "30px",
+  width: "100%",
+  flexWrap: "wrap",
+  "& > img": {
+    width: "40px",
+  },
+});
 const OutletFloor = styled(Box)(({ theme }) => ({
   position: "absolute",
   bottom: 0,
