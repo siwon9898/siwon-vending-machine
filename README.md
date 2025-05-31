@@ -58,7 +58,7 @@ src
     ├─modals           # modal
     ├─layout           # 화면 layout
     ├─pages
-  │   ├─diagram         #diagram
-  │   └─vendingMachine  #자판기 demo
+      ├─diagram         #diagram
+      └─vendingMachine  #자판기 demo
 
 ```
