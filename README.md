@@ -1,54 +1,64 @@
-# React + TypeScript + Vite
+# SIWON-VENDING-MACHINE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```text
+Protopie Assignment Stage - 자판기 구현 과제
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 주요 버전정보
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```text
+  "react": "^19.1.0",
+  "react-router-dom": "^7.6.1",
+  "@mui/material": "^7.1.0",
+  "@emotion/react": "^11.14.0",
+  "zustand": "^5.0.5"
+```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## 서버실행
+
+```bash
+npm install
+npm run dev
+```
+
+## 네이밍 규칙
+
+- 디렉토리 이름은 camel case 사용 ( ex : clientRouter, dialogStore)
+- 파일 이름은 pascal case 사용 (ex : ClientQuery, SampleDialog)
+- interface, enum 이름은 pascal case 사용
+  ex :
+
+```ts
+export interface SampleModel {
+  id: number;
+  name: string;
+}
+
+export enum SampleEnum {
+  APPLE = "Apple",
+  BANANA = "Banana",
+}
+```
+
+## 폴더 구조
+
+- 이 프로젝트는 react, vite로 구성 되어 있습니다.
+
+```
+src
+  ├─assets           # 폰트, 이미지 등 static files
+  ├─components       # 화면 구성 component
+  │   └─groupName    # 컴포넌트별 그룹명 ( ex: checkbox, editor, table)
+  │
+  ├─models              # interfaces
+  ├─stores             # zustand store
+  ├─theme               # mui 공통 theme
+  ├─utils               # 공통 util 함수
+  └─views               # pages
+    ├─modals           # modal
+    ├─layout           # 화면 layout
+    ├─pages
+  │   ├─diagram         #diagram
+  │   └─vendingMachine  #자판기 demo
+
 ```
