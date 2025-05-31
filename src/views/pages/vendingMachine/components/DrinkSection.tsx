@@ -1,7 +1,7 @@
 import DrinkButton from "@/components/buttons/DrinkButton";
 import { Drink, VendingMachineState } from "@/models/VendingMachineModel";
 import { useVendingMachineStore } from "@/stores/VendingMachineStore";
-import { getTotalCash } from "@/utils/\bCashCalculator";
+import { getTotalCash } from "@/utils/CashCalculator";
 import { Box, styled, Typography } from "@mui/material";
 
 const DrinkSection = () => {

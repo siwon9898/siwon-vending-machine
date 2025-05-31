@@ -55,3 +55,8 @@ export interface User {
   cashBalance: Money; //사용자 현금 잔액
   cardBalance: number; //사용자 카드 잔액
 }
+
+export interface ChangesInfoModal {
+  isOpen: boolean;
+  changes: Money;
+}

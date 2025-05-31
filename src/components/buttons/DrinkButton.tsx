@@ -1,7 +1,6 @@
 import { Box, ButtonBase, styled, Typography } from "@mui/material";
 import {
   Drink,
-  Machine,
   VendingMachineExeption,
   VendingMachineState,
 } from "@/models/VendingMachineModel";
@@ -10,12 +9,7 @@ import {
   useVendingMachineStore,
 } from "@/stores/VendingMachineStore";
 import { useCustomSnackbar } from "../snackbar/useCustomSnackbar";
-import {
-  getChanges,
-  getTotalCash,
-  subtractCash,
-  sumCash,
-} from "@/utils/CashCalculator";
+import { getChanges, getTotalCash, sumCash } from "@/utils/CashCalculator";
 
 interface DrinkButtonProps {
   drinkInfo: Drink;
@@ -80,10 +74,17 @@ const DrinkButton = (props: DrinkButtonProps) => {
         ...machine,
         selectedDrink: [...machine.selectedDrink, drink],
         state: VendingMachineState.drinkSelected,
+        //현금결제시 현금 시재 증가
         balance:
           machine.payMethod === "CASH"
             ? sumCash(machine.balance, machine.insertedMoney)
             : machine.balance,
+        //음료 재고 차감
+        drinks: machine.drinks.map((product) => {
+          if (product.drinkId === drink.drinkId) {
+            return { ...product, stock: product.stock - 1 };
+          } else return product;
+        }),
       });
 
       //카드결제는 음료 고르는 순간 user 잔액 차감

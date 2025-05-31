@@ -12,7 +12,7 @@ import {
   Money,
   VendingMachineState,
 } from "@/models/VendingMachineModel";
-import { getTotalCash, subtractCash, sumCash } from "@/utils/\bCashCalculator";
+import { getTotalCash, subtractCash, sumCash } from "@/utils/CashCalculator";
 
 const WalletModal = () => {
   const { isWalletOpen, user, machine } = useVendingMachineStore();

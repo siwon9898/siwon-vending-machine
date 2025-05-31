@@ -19,7 +19,7 @@ function App() {
         Components={{ default: CustomSnackbar, warning: CustomSnackbar }}
         autoHideDuration={1500}
         anchorOrigin={{
-          vertical: "bottom",
+          vertical: "top",
           horizontal: "center",
         }}
       >

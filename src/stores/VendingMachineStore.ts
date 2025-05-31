@@ -1,4 +1,5 @@
 import {
+  ChangesInfoModal,
   Machine,
   User,
   VendingMachineState,
@@ -11,12 +12,16 @@ import { immer } from "zustand/middleware/immer";
 
 interface VendingMachineStore {
   machine: Machine;
+  initMachine: Machine;
   user: User;
   isWalletOpen: boolean;
+  changeInfoModal: ChangesInfoModal;
   actions: {
     setMachine: (machine: Machine) => void;
+    setInitMachine: (initMachine: Machine) => void;
     setUser: (user: User) => void;
     setIsWalletOpen: (isOpen: boolean) => void;
+    setChangeInfoModal: (modal: ChangesInfoModal) => void;
   };
 }
 export const initMoney = {
@@ -26,14 +31,14 @@ export const initMoney = {
   5000: 0,
   10000: 0,
 };
-export const initMachine: Machine = {
+export const machinePreset: Machine = {
   drinks: [
     {
       drinkId: 0,
       name: "Coke",
       price: 1100,
       img: CokeImg,
-      stock: 0,
+      stock: 3,
     },
     {
       drinkId: 1,
@@ -76,13 +81,20 @@ export const initUser: User = {
 
 export const useVendingMachineStore = create<VendingMachineStore>()(
   immer((set) => ({
-    machine: initMachine,
+    machine: machinePreset,
+    initMachine: machinePreset,
     user: initUser,
     isWalletOpen: false,
+    changeInfoModal: { isOpen: false, changes: initMoney },
     actions: {
       setMachine: (machine: Machine) => {
         set((state) => {
           state.machine = machine;
+        });
+      },
+      setInitMachine: (initMachine: Machine) => {
+        set((state) => {
+          state.initMachine = initMachine;
         });
       },
       setUser: (user: User) => {
@@ -93,6 +105,11 @@ export const useVendingMachineStore = create<VendingMachineStore>()(
       setIsWalletOpen: (isOpen: boolean) => {
         set((state) => {
           state.isWalletOpen = isOpen;
+        });
+      },
+      setChangeInfoModal: (modal: ChangesInfoModal) => {
+        set((state) => {
+          state.changeInfoModal = modal;
         });
       },
     },

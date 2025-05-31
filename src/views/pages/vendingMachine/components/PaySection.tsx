@@ -3,14 +3,12 @@ import {
   useVendingMachineAction,
   useVendingMachineStore,
 } from "@/stores/VendingMachineStore";
-import { getTotalCash } from "@/utils/\bCashCalculator";
+import { getTotalCash } from "@/utils/CashCalculator";
 import { Box, Button, styled, Typography } from "@mui/material";
-import { useState } from "react";
 
 const PaySection = () => {
   const { machine } = useVendingMachineStore();
   const { setMachine, setIsWalletOpen } = useVendingMachineAction();
-  const [isPaying, setIsPaying] = useState<boolean>(false);
 
   const handleClickPay = (payMethod: PayMethod) => {
     if (payMethod === "CASH") {

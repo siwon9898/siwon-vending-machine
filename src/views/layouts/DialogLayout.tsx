@@ -20,6 +20,7 @@ interface DialogLayoutProps {
   confirmTxt?: string; //confrim 버튼 text
   cancelTxt?: string; //cancel 버튼 text
   sx?: CSSObject; //style overrides
+  noAction?: boolean; //action button 비노출
 }
 
 const DialogLayout = (props: DialogLayoutProps) => {
@@ -37,14 +38,16 @@ const DialogLayout = (props: DialogLayoutProps) => {
           </IconButton>
         </DialogTop>
         <DialogContent>{props.children}</DialogContent>
-        <DialogActions>
-          <DialogButton onClick={props.handleClose}>
-            {props.cancelTxt ?? "Cancel"}
-          </DialogButton>
-          <DialogButton isprimary onClick={props.handleConfirm}>
-            {props.confirmTxt ?? "Confirm"}
-          </DialogButton>
-        </DialogActions>
+        {!props.noAction && (
+          <DialogActions>
+            <DialogButton onClick={props.handleClose}>
+              {props.cancelTxt ?? "Cancel"}
+            </DialogButton>
+            <DialogButton isprimary onClick={props.handleConfirm}>
+              {props.confirmTxt ?? "Confirm"}
+            </DialogButton>
+          </DialogActions>
+        )}
       </DialogBox>
     </Dialog>
   );

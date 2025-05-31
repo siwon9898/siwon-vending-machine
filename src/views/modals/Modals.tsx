@@ -1,10 +1,15 @@
 import { useVendingMachineStore } from "@/stores/VendingMachineStore";
-import React from "react";
 import WalletModal from "./WalletModal";
+import PayInfoModal from "./ChangeInfoModal";
 
 const Modals = () => {
-  const { isWalletOpen } = useVendingMachineStore();
-  return <>{isWalletOpen && <WalletModal />}</>;
+  const { isWalletOpen, changeInfoModal } = useVendingMachineStore();
+  return (
+    <>
+      {isWalletOpen && <WalletModal />}
+      {changeInfoModal.isOpen && <PayInfoModal />}
+    </>
+  );
 };
 
 export default Modals;

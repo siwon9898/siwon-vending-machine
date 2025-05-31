@@ -1,15 +1,17 @@
 import { Money, VendingMachineState } from "@/models/VendingMachineModel";
 import {
   initMoney,
+  useVendingMachineAction,
   useVendingMachineStore,
 } from "@/stores/VendingMachineStore";
-import { getChanges, getTotalCash } from "@/utils/\bCashCalculator";
+import { getChanges, getTotalCash } from "@/utils/CashCalculator";
 import { Box, styled, Typography } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 
 const ChangesSection = () => {
   const { machine } = useVendingMachineStore();
-  const [change, setChange] = useState<Money>();
+  const { setChangeInfoModal } = useVendingMachineAction();
+  const [change, setChange] = useState<Money>(initMoney);
 
   useMemo(() => {
     if (
@@ -29,6 +31,10 @@ const ChangesSection = () => {
     }
   }, [machine.insertedMoney, machine.selectedDrink, machine.state]);
 
+  const handleClickChange = () => {
+    setChangeInfoModal({ isOpen: true, changes: change });
+  };
+
   useEffect(() => {
     console.log("machine", machine);
   }, [machine]);
@@ -38,26 +44,42 @@ const ChangesSection = () => {
       <Typography variant="h3">Changes</Typography>
       <Box>
         <PayStatus>
-          <Typography>Price</Typography>
+          <Typography>Price Total</Typography>
           <Box>
             {machine.selectedDrink
-              ? machine.selectedDrink.reduce((a, b) => a + b.price, 0)
+              ? `₩${machine.selectedDrink.reduce((a, b) => a + b.price, 0)}`
               : "-"}
           </Box>
         </PayStatus>
         <PayStatus>
-          <Typography>Paid</Typography>
+          <Typography>Paid Total</Typography>
           <Box>
             {machine.selectedDrink
               ? machine.payMethod === "CARD"
-                ? machine.selectedDrink.reduce((a, b) => a + b.price, 0)
-                : getTotalCash(machine.insertedMoney).toLocaleString()
+                ? `₩${machine.selectedDrink.reduce((a, b) => a + b.price, 0)}`
+                : `₩${getTotalCash(machine.insertedMoney).toLocaleString()}`
               : "-"}
           </Box>
         </PayStatus>
         <PayStatus isprimary>
           <Typography>Changes</Typography>
-          <Box>{change ? getTotalCash(change).toLocaleString() : "-"}</Box>
+          <Box>
+            {machine.state === VendingMachineState.drinkSelected ? (
+              <>
+                {getTotalCash(change) > 0 ? (
+                  <ChangeTypo onClick={handleClickChange}>
+                    ₩{getTotalCash(change).toLocaleString()}
+                  </ChangeTypo>
+                ) : (
+                  <Typography>
+                    ₩{getTotalCash(change).toLocaleString()}
+                  </Typography>
+                )}
+              </>
+            ) : (
+              "-"
+            )}
+          </Box>
         </PayStatus>
       </Box>
     </Container>
@@ -94,5 +116,10 @@ const PayStatus = styled(Box)<{ isprimary?: boolean }>(
     },
   })
 );
+
+const ChangeTypo = styled(Typography)({
+  textDecoration: "underline",
+  cursor: "pointer",
+});
 
 export default ChangesSection;
