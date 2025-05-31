@@ -1,19 +1,41 @@
+import { PayMethod, VendingMachineState } from "@/models/VendingMachineModel";
+import {
+  useVendingMachineAction,
+  useVendingMachineStore,
+} from "@/stores/VendingMachineStore";
 import { Box, Button, styled, Typography } from "@mui/material";
 import React, { useState } from "react";
 
 const PaySection = () => {
-  const [inserted, setInserted] = useState<number>(0);
+  const { machine } = useVendingMachineStore();
+  const { setMachine } = useVendingMachineAction();
+
+  const handleClickPay = (payMethod: PayMethod) => {
+    setMachine({
+      ...machine,
+      payMethod: payMethod,
+      state: VendingMachineState.paid,
+    });
+  };
 
   return (
     <Container>
       <Typography variant="h3">Pay here</Typography>
       <PayButtonBox>
-        <Button>Card</Button>
-        <Button>Cash</Button>
+        <Button onClick={() => handleClickPay("CARD")}>Card</Button>
+        <Button onClick={() => handleClickPay("CASH")}>Cash</Button>
       </PayButtonBox>
       <InsertedBox>
         <Typography>Inserted</Typography>
-        <Box>₩{inserted.toLocaleString()}</Box>
+        {machine.state === VendingMachineState.paid ? (
+          <Box>
+            {machine.payMethod === "CARD"
+              ? "AUTO"
+              : `₩${machine.insertedMoney.toLocaleString()}`}
+          </Box>
+        ) : (
+          <Box>-</Box>
+        )}
       </InsertedBox>
     </Container>
   );

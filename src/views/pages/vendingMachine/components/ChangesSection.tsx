@@ -10,7 +10,7 @@ const ChangesSection = () => {
           <Box>-</Box>
         </PayStatus>
         <PayStatus>
-          <Typography>Inserted</Typography>
+          <Typography>Paid</Typography>
           <Box>-</Box>
         </PayStatus>
         <PayStatus isprimary>

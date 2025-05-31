@@ -1,11 +1,19 @@
 import DrinkButton from "@/components/buttons/DrinkButton";
 import { Drink, VendingMachineState } from "@/models/VendingMachineModel";
 import { useVendingMachineStore } from "@/stores/VendingMachineStore";
+import { getTotalCash } from "@/utils/\bCashCalculator";
 import { Box, styled, Typography } from "@mui/material";
 
 const DrinkSection = () => {
   const { machine } = useVendingMachineStore();
 
+  const checkIsAvailable = (drink: Drink) => {
+    if (drink.stock === 0) return false;
+    if (machine.state === VendingMachineState.paid) return true;
+    if (machine.payMethod === "CARD") return true;
+    if (getTotalCash(machine.insertedMoney) >= drink.price) return true;
+    else return false;
+  };
   return (
     <Container>
       <Typography variant="h3">Select Drink</Typography>
@@ -14,7 +22,7 @@ const DrinkSection = () => {
           <DrinkButton
             drinkInfo={item}
             key={item.drinkId}
-            isactive={machine.state === VendingMachineState.paid}
+            isactive={checkIsAvailable(item)}
           />
         ))}
       </Box>

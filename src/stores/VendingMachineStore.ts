@@ -14,6 +14,7 @@ interface VendingMachineStore {
   user: User;
   actions: {
     setMachine: (machine: Machine) => void;
+    setUser: (user: User) => void;
   };
 }
 
@@ -49,8 +50,15 @@ export const initMachine: Machine = {
     5000: 3,
     10000: 1,
   },
-  insertedMoney: 0,
-  state: VendingMachineState.Success,
+  payMethod: undefined,
+  insertedMoney: {
+    100: 0,
+    500: 0,
+    1000: 0,
+    5000: 0,
+    10000: 0,
+  },
+  state: VendingMachineState.initial,
 };
 
 export const initUser: User = {

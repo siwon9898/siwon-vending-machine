@@ -1,10 +1,15 @@
 import { Box, Button, ButtonBase, styled, Typography } from "@mui/material";
-import { Drink, VendingMachineExeption } from "@/models/VendingMachineModel";
+import {
+  Drink,
+  VendingMachineExeption,
+  VendingMachineState,
+} from "@/models/VendingMachineModel";
 import {
   useVendingMachineAction,
   useVendingMachineStore,
 } from "@/stores/VendingMachineStore";
 import { useCustomSnackbar } from "../snackbar/useCustomSnackbar";
+import { getChanges, getTotalCash, sumCash } from "@/utils/CashCalculator";
 
 interface DrinkButtonProps {
   drinkInfo: Drink;
@@ -13,17 +18,41 @@ interface DrinkButtonProps {
 
 const DrinkButton = (props: DrinkButtonProps) => {
   const { showWarning } = useCustomSnackbar();
-  const { machine } = useVendingMachineStore();
+  const { machine, user } = useVendingMachineStore();
   const { setMachine } = useVendingMachineAction();
 
-  const handleSelectDrink = (drinkId: number, isSoldOut?: boolean) => {
+  const handleSelectDrink = (drink: Drink) => {
+    const insertedCashTotal = getTotalCash(machine.insertedMoney);
+
     //품절인 경우
-    if (isSoldOut) {
+    if (drink.stock === 0) {
       showWarning(VendingMachineExeption.OutofStock);
       return;
     }
-    if (machine.insertedMoney === 0) {
+    //결제하지 않고 선택한 경우
+    if (machine.state === VendingMachineState.initial) {
       showWarning(VendingMachineExeption.unpaid);
+      return;
+    }
+    //카드결제 잔액이 부족한경우
+    if (machine.payMethod === "CARD" && user.cardBalance < drink.price) {
+      showWarning(VendingMachineExeption.InsufficientBalance);
+      return;
+    }
+    //현금결제 금액이 부족하경우
+    if (machine.payMethod === "CASH" && insertedCashTotal < drink.price) {
+      showWarning(VendingMachineExeption.InsufficientCash);
+      return;
+    }
+    //잔돈 반환이 불가능한 경우
+    if (
+      machine.payMethod === "CASH" &&
+      !getChanges(
+        insertedCashTotal - drink.price,
+        sumCash(machine.balance, machine.insertedMoney)
+      )
+    ) {
+      showWarning(VendingMachineExeption.InsufficientBalance);
       return;
     }
   };
@@ -44,13 +73,8 @@ const DrinkButton = (props: DrinkButtonProps) => {
         </DrinkLabel>
       </Box>
       <SelectButton
-        isactive={props.isactive && props.drinkInfo.stock > 0}
-        onClick={() =>
-          handleSelectDrink(
-            props.drinkInfo.drinkId,
-            props.drinkInfo.stock === 0
-          )
-        }
+        isactive={props.isactive}
+        onClick={() => handleSelectDrink(props.drinkInfo)}
       >
         {props.drinkInfo.stock > 0 ? "select" : "sold out"}
       </SelectButton>
